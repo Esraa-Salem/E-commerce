@@ -2,12 +2,6 @@ from django.urls import path
 from .views import *
 from . import views
 
-
-from rest_framework.routers import DefaultRouter
-router=DefaultRouter()
-router.register('cart',views.CartViewSet,basename='cart')
-router.register('cartitem',views.CartItemViewSet,basename='cartitem')
-
 urlpatterns=[
     path('auth/getallUser/',UserSerializerlist.as_view(),name='get'),
     path("auth/detailsUser/<str:id>/",UserINFO.as_view()),
@@ -32,4 +26,3 @@ urlpatterns=[
     path('orders/<str:pk>/process/', views.process_order,name='process_order'), 
     path('orders/<str:pk>/delete/', views.delete_order,name='delete_order'),   
 ]
-urlpatterns=urlpatterns + router.urls
