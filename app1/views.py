@@ -505,7 +505,8 @@ def new_order(request):
                 order = order,
                 name = product.name,
                 quantity = i['quantity'],
-                price = i['price']
+                price = i['price'],
+                orders=i['orders']
             )
            #product.stock -= item.quantity
             product.save()
