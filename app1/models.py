@@ -68,7 +68,34 @@ class offers(models.Model):
 
 
 
-class OrderStatus(models.TextChoices):
+# class catrpro(models.Model):
+#     name= models.CharField(null=False,max_length=50)
+#     price=models.FloatField(null=False)
+#     amount=models.IntegerField(null=False)
+#     #depart=models.ForeignKey(department,on_delete=models.CASCADE,related_name='depart')
+
+
+# class Cart(models.Model):
+#     products = models.ManyToManyField(Product)
+#     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+
+#     def __str__(self):
+#         return self.id
+
+
+
+
+# class CartItem(models.Model):
+#     cart = models.ForeignKey(Cart, related_name ='items', on_delete=models.CASCADE)
+#     product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
+#     cart = models.ForeignKey(Cart, null=True, on_delete=models.CASCADE,related_name='cartitems')
+#     name = models.CharField(max_length=200, default="", blank=False)
+#     quantity = models.IntegerField( default=1 )
+#     price = models.DecimalField( max_digits=7, decimal_places=2,blank=False )
+
+
+
+class CartStatus(models.TextChoices):
     PROCESSING = 'Processing'
     SHIPPED = 'Shipped'
     DELIVERED = 'Delivered'
@@ -77,21 +104,14 @@ class PaymentStatus(models.TextChoices):
     PAID = 'Paid'
     UNPAID = 'Unpaid' 
 
-class PaymentMode(models.TextChoices):
-    Cash = 'Cash'
-    CARD = 'CARD' 
 
-class Order(models.Model):
-    city = models.CharField(max_length=400, default="", blank=False)
-    #zip_code = models.CharField(max_length=100, default="", blank=False)
-    street = models.CharField(max_length=500, default="", blank=False)
-    state = models.CharField(max_length=100, default="", blank=False)
-    country = models.CharField(max_length=100, default="", blank=False)
-    phone_no = models.CharField(max_length=100, default="", blank=False)
-    total_amount = models.IntegerField( default=0 )
+
+######## new code cart 
+      
+class Cart(models.Model):
     payment_status = models.CharField(max_length=30, choices=PaymentStatus.choices, default=PaymentStatus.UNPAID)
-    payment_mode = models.CharField(max_length=30, choices=PaymentMode.choices, default=PaymentMode.Cash)
-    status = models.CharField(max_length=60, choices=OrderStatus.choices, default=OrderStatus.PROCESSING)
+    status = models.CharField(max_length=60, choices=CartStatus.choices, default=CartStatus.PROCESSING)
+    #id = ShortUUIDField(primary_key=True,max_length=20,length=10,prefix="lola",alphabet="abcdefhgigklmnoqz91471 ", unique=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     createAt = models.DateTimeField(auto_now_add=True)
 
@@ -99,19 +119,76 @@ class Order(models.Model):
         return str(self.id)
     
     
-class cart(models.Model):
-    created=models.DateTimeField(auto_now_add=True)
-   
-    
 
-class OrderItem(models.Model):
+
+
+
+class CartItem(models.Model):
     product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
-    order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE,related_name='orderitems')
+    cart = models.ForeignKey(Cart, null=True, on_delete=models.CASCADE,related_name='cartitems')
     name = models.CharField(max_length=200, default="", blank=False)
     quantity = models.IntegerField( default=1 )
     price = models.DecimalField( max_digits=7, decimal_places=2,blank=False )
-    orders=models.ForeignKey(cart,on_delete=models.CASCADE,related_name='order')
+    
 
     def __str__(self):
         return self.name
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class OrderStatus(models.TextChoices):
+#     PROCESSING = 'Processing'
+#     SHIPPED = 'Shipped'
+#     DELIVERED = 'Delivered'
+
+# class PaymentStatus(models.TextChoices):
+#     PAID = 'Paid'
+#     UNPAID = 'Unpaid' 
+
+# class PaymentMode(models.TextChoices):
+#     COD = 'COD'
+#     CARD = 'CARD' 
+
+# class Order(models.Model):
+#     city = models.CharField(max_length=400, default="", blank=False)
+#     zip_code = models.CharField(max_length=100, default="", blank=False)
+#     street = models.CharField(max_length=500, default="", blank=False)
+#     state = models.CharField(max_length=100, default="", blank=False)
+#     country = models.CharField(max_length=100, default="", blank=False)
+#     phone_no = models.CharField(max_length=100, default="", blank=False)
+#     total_amount = models.IntegerField( default=0 )
+#     payment_status = models.CharField(max_length=30, choices=PaymentStatus.choices, default=PaymentStatus.UNPAID)
+#     payment_mode = models.CharField(max_length=30, choices=PaymentMode.choices, default=PaymentMode.COD)
+#     status = models.CharField(max_length=60, choices=OrderStatus.choices, default=OrderStatus.PROCESSING)
+#     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+#     createAt = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return str(self.id)
+    
+
+# class OrderItem(models.Model):
+#     product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
+#     order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE,related_name='orderitems')
+#     name = models.CharField(max_length=200, default="", blank=False)
+#     quantity = models.IntegerField( default=1 )
+#     price = models.DecimalField( max_digits=7, decimal_places=2,blank=True  )
+
+#     def __str__(self):
+#         return self.name

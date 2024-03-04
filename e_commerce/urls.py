@@ -20,9 +20,11 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view 
 from app1 import views 
 from rest_framework.routers import DefaultRouter 
+#from app1.views import CartViewSet
 router=DefaultRouter() 
-router.register('cart',views.CartViewSet,basename='cart') 
-router.register('cartitem',views.CartItemViewSet,basename='cartitem') 
+#router.register(r'carts', CartViewSet)
+# router.register('cart',views.CartViewSet,basename='cart') 
+# router.register('cartitem',views.CartItemViewSet,basename='cartitem') 
 schema_view = get_schema_view( 
     openapi.Info( 
         title="Shopping API", 
@@ -36,7 +38,7 @@ schema_view = get_schema_view(
 urlpatterns = [ 
     path('admin/', admin.site.urls), 
     path('',include('app1.urls')), 
-    path('cart',include(router.urls)) , 
+    #path('cart',include(router.urls)) , 
     path( 
         "", 
         schema_view.with_ui("swagger", cache_timeout=0), 
